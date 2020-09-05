@@ -1,6 +1,4 @@
-schema:
-  - graph/*.graphqls
-
+schema: schema.graphql
 exec:
   filename: gqlgen/exec.go
 model:
@@ -8,10 +6,8 @@ model:
 resolver:
   filename: gqlgen/resolvers.go
   type: Resolver
-  layout: follow-schema
-  dir: graph
 
 autobind:
-  - "github.com/fr3fou/bike-racing/bike-racing"
+  - github.com/deliriumproducts/aumo/aumo
 
 omit_slice_element_pointers: true
