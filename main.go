@@ -1,24 +1,41 @@
 package main
 
 import (
-	"fmt"
-
-	"github.com/lawl/pulseaudio"
+	"io"
+	"os"
+	"os/exec"
 )
 
 func main() {
-	c, err := pulseaudio.NewClient()
+	cmd := exec.Command(
+		"parec",
+		"--format=float32le",
+		"--rate=48000",
+		"--channels=1",
+	)
+
+	cmd.Stderr = os.Stderr
+
+	pipe, err := cmd.StdoutPipe()
 	if err != nil {
 		panic(err)
 	}
-	defer c.Close()
 
-	s, err := c.Sources()
+	if err := cmd.Start(); err != nil {
+		panic(err)
+	}
+
+	file, err := os.Create("test.pcm")
 	if err != nil {
 		panic(err)
 	}
 
-	for _, source := range s {
-		fmt.Println(source)
+	_, err = io.Copy(file, pipe)
+	if err != nil {
+		panic(err)
+	}
+
+	if err := cmd.Wait(); err != nil {
+		panic(err)
 	}
 }
