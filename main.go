@@ -20,6 +20,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	defer pipe.Close()
 
 	if err := cmd.Start(); err != nil {
 		panic(err)
@@ -29,6 +30,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	defer file.Close()
 
 	_, err = io.Copy(file, pipe)
 	if err != nil {
