@@ -52,8 +52,8 @@ type Sample = float64
 func parseSamples(r io.Reader, limit int) []Sample {
 	v := []Sample{}
 
+	b := make([]byte, 4) // 4 bytes because we're using float32 (32 bits = 4 bytes)
 	for i := 0; i < limit; i += 44100 {
-		b := make([]byte, 4) // 4 bytes because we're using float32 (32 bits = 4 bytes)
 		_, err := r.Read(b)
 		if err != nil {
 			log.Println(err)
