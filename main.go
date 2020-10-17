@@ -47,20 +47,20 @@ func main() {
 	}
 }
 
-type Sample = float32
+type Sample = float64
 
 func parseSamples(r io.Reader, limit int) []Sample {
 	v := []Sample{}
 
 	for i := 0; i < limit; i += 44100 {
-		b := make([]byte, 32) // 32 because we're using float32
+		b := make([]byte, 4) // 32 because we're using float32
 		_, err := r.Read(b)
 		if err != nil {
 			log.Println(err)
 
 			break
 		}
-		v = append(v, math.Float32frombits(binary.LittleEndian.Uint32(b)))
+		v = append(v, float64(math.Float32frombits(binary.LittleEndian.Uint32(b))))
 	}
 
 	return v
