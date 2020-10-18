@@ -8,9 +8,24 @@ import (
 	"math"
 	"os"
 	"os/exec"
+	"time"
+
+	"github.com/fr3fou/gusic/gusic"
 )
 
 func main() {
+	c := gusic.Chord{
+		gusic.A(4, time.Second, 1),
+		gusic.B(4, time.Second, 1),
+	}
+	samples := c.Samples(44100, math.Sin, gusic.NewLinearADSR(gusic.NewRatios(0.25, 0.25, 0.25, 0.25), 1.00, 0.35))
+	out := dft(samples)
+	for _, v := range out {
+		fmt.Printf("%.02f,%.02f\n", real(v)*100, imag(v)*100)
+	}
+}
+
+func _main() {
 	cmd := exec.Command(
 		"parec",
 		"--format=float32le",
