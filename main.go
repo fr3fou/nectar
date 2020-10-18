@@ -104,12 +104,16 @@ func dft(samples []Sample) []complex128 {
 	}
 
 	N := float64(len(input))
-	for i := 0.0; i < N/2; i++ {
+	for k := 0.0; k < N/2; k++ {
 		var c complex128
 		for n, x := range input {
 			c += x * complex(
-				math.Cos(((2.0*math.Pi)/N*i*float64(n))),
-				-math.Sin(((2.0*math.Pi)/N*i*float64(n))),
+				math.Cos(
+					((2.0*math.Pi)/N)*k*float64(n),
+				),
+				-math.Sin(
+					((2.0*math.Pi)/N)*k*float64(n),
+				),
 			)
 		}
 		output = append(output, c)
