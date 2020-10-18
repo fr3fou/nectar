@@ -65,3 +65,26 @@ func parseSamples(r io.Reader, limit int) []Sample {
 
 	return v
 }
+
+func dft(samples []Sample) []complex128 {
+	output := []complex128{}
+	input := []complex128{}
+
+	for _, v := range samples {
+		input = append(input, complex(v, 0))
+	}
+
+	N := float64(len(input))
+	for i := 0.0; i < N; i++ {
+		var c complex128
+		for n, x := range input {
+			c += x * complex(
+				math.Cos(((2.0*math.Pi)/N*i*float64(n))),
+				-math.Sin(((2.0*math.Pi)/N*i*float64(n))),
+			)
+		}
+		output = append(output, c)
+	}
+
+	return output
+}
