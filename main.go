@@ -9,23 +9,16 @@ import (
 	"os"
 	"os/exec"
 	"time"
-
-	"github.com/fr3fou/gusic/gusic"
 )
 
-func main() {
-	c := gusic.Chord{
-		gusic.A(4, time.Second, 1),
-		gusic.B(4, time.Second, 1),
-	}
-	samples := c.Samples(44100, math.Sin, gusic.NewLinearADSR(gusic.NewRatios(0.25, 0.25, 0.25, 0.25), 1.00, 0.35))
-	out := dft(samples)
-	for _, v := range out {
-		fmt.Printf("%.02f,%.02f\n", real(v)*100, imag(v)*100)
-	}
+func _main() {
+	// c := gusic.Chord{
+	// 	gusic.A(4, time.Second, 1),
+	// 	gusic.B(4, time.Second, 1),
+	// }
 }
 
-func _main() {
+func main() {
 	cmd := exec.Command(
 		"parec",
 		"--format=float32le",
@@ -40,6 +33,12 @@ func _main() {
 		panic(err)
 	}
 
+	log.Println("recording...in 3 sec")
+	time.Sleep(1 * time.Second)
+	log.Println("recording...in 2 sec")
+	time.Sleep(1 * time.Second)
+	log.Println("recording...in 1 sec")
+	time.Sleep(1 * time.Second)
 	if err := cmd.Start(); err != nil {
 		panic(err)
 	}
@@ -50,15 +49,10 @@ func _main() {
 		panic(err)
 	}
 
-	file, err := os.Create("output.pcm")
-	if err != nil {
-		panic(err)
-	}
-
-	fmt.Println(samples)
-
-	if err := binary.Write(file, binary.LittleEndian, samples); err != nil {
-		panic(err)
+	log.Println("computing dft...")
+	out := dft(samples)
+	for _, v := range out {
+		fmt.Printf("%.02f,%.02f\n", real(v)*100, imag(v)*100)
 	}
 }
 
