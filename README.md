@@ -5,7 +5,7 @@
 - [x] Read mic output
 - [x] Parse samples
 - [x] Implement DFT
-    - [ ] Fix conjugate symmetry (ignore half the values)
+    - [x] Fix conjugate symmetry (ignore half the values)
         > Here we note that there is a symmetry to the graph. This is not a coincidence: if the input signal is real-valued, it will always be the case that the Fourier transform is symmetric about its center value. The reason for this goes back to our first primer on the Fourier series, in that the negative coefficients were complex conjugates of the positive ones. In any event, we only need concern ourselves with the first half of the values.
     - [ ] Fix values being twice as big
 - [ ] Caclulate frequency

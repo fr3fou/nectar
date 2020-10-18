@@ -53,16 +53,16 @@ func main() {
 	}
 	log.Println("finished recording...")
 
-	// f, err := os.Create("naive.csv")
-	// if err != nil {
-	// 	panic(err)
-	// }
+	f, err := os.Create("naive.csv")
+	if err != nil {
+		panic(err)
+	}
 
-	// log.Println("computing naive dft...")
-	// out := dft(samples)
-	// for _, v := range out {
-	// 	fmt.Fprintf(f, "%.02f,%.02f\n", real(v)*100, imag(v)*100)
-	// }
+	log.Println("computing naive dft...")
+	out := dft(samples)
+	for _, v := range out {
+		fmt.Fprintf(f, "%.02f,%.02f\n", real(v)*100, imag(v)*100)
+	}
 
 	g, err := os.Create("gonum.csv")
 	if err != nil {
@@ -70,7 +70,7 @@ func main() {
 	}
 
 	log.Println("computing gonum fft...")
-	out := fourier.NewFFT(len(samples)).Coefficients(nil, samples)
+	out = fourier.NewFFT(len(samples)).Coefficients(nil, samples)
 	for _, v := range out {
 		fmt.Fprintf(g, "%.02f,%.02f\n", real(v)*100, imag(v)*100)
 	}
@@ -104,7 +104,7 @@ func dft(samples []Sample) []complex128 {
 	}
 
 	N := float64(len(input))
-	for i := 0.0; i < N; i++ {
+	for i := 0.0; i < N/2; i++ {
 		var c complex128
 		for n, x := range input {
 			c += x * complex(
