@@ -1,5 +1,7 @@
 # nectar - music note detector
 
+Detecting music notes from an audio input through the use of (Fast) Fourier Transforms in Go. 
+
 ## TODO
 
 - [x] Read mic output
