@@ -51,11 +51,6 @@ func main() {
 	}
 	log.Println("finished recording...")
 
-	// f, err := os.Create("naive.csv")
-	// if err != nil {
-	// 	panic(err)
-	// }
-
 	log.Println("computing naive dft...")
 	out := dft(samples)
 	max := math.Inf(-1)
@@ -68,17 +63,6 @@ func main() {
 		}
 	}
 	fmt.Println(freq)
-
-	// g, err := os.Create("gonum.csv")
-	// if err != nil {
-	// 	panic(err)
-	// }
-
-	// log.Println("computing gonum fft...")
-	// out = fourier.NewFFT(len(samples)).Coefficients(nil, samples)
-	// for _, v := range out {
-	// 	fmt.Fprintf(g, "%.02f,%.02f\n", real(v)*100, imag(v)*100)
-	// }
 }
 
 type Sample = float64
