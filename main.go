@@ -11,13 +11,6 @@ import (
 	"time"
 )
 
-func _main() {
-	// c := gusic.Chord{
-	// 	gusic.A(4, time.Second, 1),
-	// 	gusic.B(4, time.Second, 1),
-	// }
-}
-
 func main() {
 	cmd := exec.Command(
 		"parec",
@@ -44,25 +37,22 @@ func main() {
 		panic(err)
 	}
 
-	samples := parseSamples(pipe, 44100)
+	for {
+		samples := parseSamples(pipe, 44100)
 
-	if err := cmd.Process.Kill(); err != nil {
-		panic(err)
-	}
-	log.Println("finished recording...")
-
-	log.Println("computing naive dft...")
-	out := dft(samples)
-	max := math.Inf(-1)
-	freq := 0
-	for i, v := range out {
-		magnitude := math.Sqrt(real(v)*real(v) - imag(v)*imag(v))
-		if magnitude >= max {
-			max = magnitude
-			freq = i
+		log.Println("computing naive dft...")
+		out := dft(samples)
+		max := math.Inf(-1)
+		freq := 0
+		for i, v := range out {
+			magnitude := math.Sqrt(real(v)*real(v) - imag(v)*imag(v))
+			if magnitude >= max {
+				max = magnitude
+				freq = i
+			}
 		}
+		fmt.Println(freq)
 	}
-	fmt.Println(freq)
 }
 
 type Sample = float64
