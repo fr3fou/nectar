@@ -9,8 +9,6 @@ import (
 	"os"
 	"os/exec"
 	"time"
-
-	"gonum.org/v1/gonum/dsp/fourier"
 )
 
 func _main() {
@@ -46,34 +44,41 @@ func main() {
 		panic(err)
 	}
 
-	samples := parseSamples(pipe, 44100*2) // 2 secs of audio
+	samples := parseSamples(pipe, 44100)
 
 	if err := cmd.Process.Kill(); err != nil {
 		panic(err)
 	}
 	log.Println("finished recording...")
 
-	f, err := os.Create("naive.csv")
-	if err != nil {
-		panic(err)
-	}
+	// f, err := os.Create("naive.csv")
+	// if err != nil {
+	// 	panic(err)
+	// }
 
 	log.Println("computing naive dft...")
 	out := dft(samples)
-	for _, v := range out {
-		fmt.Fprintf(f, "%.02f,%.02f\n", real(v)*100, imag(v)*100)
+	max := math.Inf(-1)
+	freq := 0
+	for i, v := range out {
+		magnitude := math.Sqrt(real(v)*real(v) - imag(v)*imag(v))
+		if magnitude >= max {
+			max = magnitude
+			freq = i
+		}
 	}
+	fmt.Println(freq)
 
-	g, err := os.Create("gonum.csv")
-	if err != nil {
-		panic(err)
-	}
+	// g, err := os.Create("gonum.csv")
+	// if err != nil {
+	// 	panic(err)
+	// }
 
-	log.Println("computing gonum fft...")
-	out = fourier.NewFFT(len(samples)).Coefficients(nil, samples)
-	for _, v := range out {
-		fmt.Fprintf(g, "%.02f,%.02f\n", real(v)*100, imag(v)*100)
-	}
+	// log.Println("computing gonum fft...")
+	// out = fourier.NewFFT(len(samples)).Coefficients(nil, samples)
+	// for _, v := range out {
+	// 	fmt.Fprintf(g, "%.02f,%.02f\n", real(v)*100, imag(v)*100)
+	// }
 }
 
 type Sample = float64
