@@ -21,3 +21,4 @@ Detecting musical notes from an audio input through the use of (Fast) Fourier Tr
 - <https://jeremykun.com/2012/07/18/the-fast-fourier-transform/>
 - <https://dsp.stackexchange.com/questions/4825/why-is-the-fft-mirrored>
 - <https://dsp.stackexchange.com/questions/26927/what-is-a-frequency-bin>
+- <https://www.youtube.com/watch?v=iTMn0Kt18tg>
