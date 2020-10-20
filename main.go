@@ -8,7 +8,8 @@ import (
 	"math"
 	"os"
 	"os/exec"
-	"time"
+
+	"gonum.org/v1/gonum/dsp/fourier"
 )
 
 func main() {
@@ -26,32 +27,30 @@ func main() {
 		panic(err)
 	}
 
-	log.Println("recording...in 3 sec")
-	time.Sleep(1 * time.Second)
-	log.Println("recording...in 2 sec")
-	time.Sleep(1 * time.Second)
-	log.Println("recording...in 1 sec")
-	time.Sleep(1 * time.Second)
-	log.Println("recording...")
 	if err := cmd.Start(); err != nil {
 		panic(err)
 	}
 
+	fft := fourier.NewFFT(44100)
 	for {
 		samples := parseSamples(pipe, 44100)
 
-		log.Println("computing naive dft...")
-		out := dft(samples)
+		out := fft.Coefficients(nil, samples)
 		max := math.Inf(-1)
 		freq := 0
+
 		for i, v := range out {
-			magnitude := math.Sqrt(real(v)*real(v) - imag(v)*imag(v))
+			magnitude := math.Sqrt(math.Pow(real(v), 2) - math.Pow(imag(v), 2))
 			if magnitude >= max {
 				max = magnitude
 				freq = i
 			}
 		}
-		fmt.Println(freq)
+
+		// 30 is arbitrary, should be a value from a calibration of the microphone done beforehand
+		if freq > 30 {
+			fmt.Printf("Current note: %s\n", note(float64(freq)))
+		}
 	}
 }
 
@@ -74,6 +73,8 @@ func parseSamples(r io.Reader, limit int) []Sample {
 	return v
 }
 
+// very slow (O(n^2))
+// deprecated for gonum's fft
 func dft(samples []Sample) []complex128 {
 	output := []complex128{}
 	input := []complex128{}
