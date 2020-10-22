@@ -13,6 +13,9 @@ Detecting musical notes from an audio input through the use of (Fast) Fourier Tr
     - [x] Optimize ~~(Implement FFT)~~ - using gonum
 - [x] Caclulate frequency
 - [x] Calculate the offset from A440
+- [ ] Filter out noise
+- [ ] Fix chugging (take the FFT of a smaller chunk, rather than a full second)
+
 
 ## References
 
