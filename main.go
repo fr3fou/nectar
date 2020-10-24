@@ -6,6 +6,7 @@ import (
 	"io"
 	"log"
 	"math"
+	"math/cmplx"
 	"os"
 	"os/exec"
 
@@ -40,7 +41,7 @@ func main() {
 		freq := 0
 
 		for i, v := range out {
-			magnitude := math.Sqrt(math.Pow(real(v), 2) - math.Pow(imag(v), 2))
+			magnitude := cmplx.Abs(v)
 			if magnitude >= max {
 				max = magnitude
 				freq = i
