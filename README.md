@@ -1,6 +1,6 @@
 # nectar
 
-Detecting musical notes from an audio input through the use of (Fast) Fourier Transforms in Go from scratch.
+Detecting musical notes from an audio input through the use of (Fast) Fourier Transforms in Go.
 
 ## TODO
 
