@@ -26,3 +26,4 @@ Detecting musical notes from an audio input through the use of (Fast) Fourier Tr
 - <https://dsp.stackexchange.com/questions/26927/what-is-a-frequency-bin>
 - <https://www.youtube.com/watch?v=iTMn0Kt18tg>
 - <https://www.johndcook.com/blog/2016/02/10/musical-pitch-notation/>
+- <http://digitalsoundandmusic.com/2-3-10-windowing-the-fft>
