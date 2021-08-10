@@ -65,7 +65,6 @@ func parseSamples(r io.Reader, limit int) []Sample {
 		_, err := r.Read(b) // Read a single sample
 		if err != nil {
 			log.Println(err)
-
 			break
 		}
 		v = append(v, float64(math.Float32frombits(binary.LittleEndian.Uint32(b))))
